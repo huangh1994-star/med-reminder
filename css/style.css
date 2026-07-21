@@ -251,17 +251,18 @@ body {
   width: 100%;
   height: 100%;
   transform: rotate(-90deg);
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.08));
 }
 
 .progress-ring-bg {
   fill: none;
   stroke: var(--color-separator);
   stroke-width: 7;
+  opacity: 0.5;
 }
 
 .progress-ring-fill {
   fill: none;
+  stroke: #34C759;
   stroke: url(#progressGradient);
   stroke-width: 7;
   stroke-linecap: round;
