@@ -2,7 +2,7 @@
  * Service Worker — 离线缓存 + 通知调度
  * 版本: v1
  */
-const CACHE_NAME = 'med-reminder-v1';
+const CACHE_NAME = 'med-reminder-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
