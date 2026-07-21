@@ -220,6 +220,7 @@ const App = (() => {
 
     ring.style.strokeDasharray = circumference;
     ring.style.strokeDashoffset = offset;
+    ring.classList.remove('complete', 'partial');
 
     $('#progress-taken').textContent = taken;
     $('#progress-total').textContent = total;
@@ -229,10 +230,11 @@ const App = (() => {
       label.textContent = '今日无服药安排';
     } else if (taken === total) {
       label.textContent = '全部完成！';
-      ring.style.stroke = 'var(--color-success)';
+      ring.classList.add('complete');
     } else {
       label.textContent = `还有 ${total - taken} 次待服用`;
-      ring.style.stroke = taken > 0 ? 'var(--color-warning)' : 'var(--color-separator)';
+      ring.classList.remove('complete', 'partial');
+      if (taken > 0) ring.classList.add('partial');
     }
   }
 

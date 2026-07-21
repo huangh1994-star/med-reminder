@@ -255,18 +255,24 @@ body {
 
 .progress-ring-bg {
   fill: none;
-  stroke: var(--color-separator);
+  stroke: #E8E8ED;
   stroke-width: 7;
-  opacity: 0.5;
 }
 
 .progress-ring-fill {
   fill: none;
-  stroke: #34C759;
-  stroke: url(#progressGradient);
+  stroke: #C8C8CE;
   stroke-width: 7;
   stroke-linecap: round;
   transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-ring-fill.partial {
+  stroke: #FF9500;
+}
+
+.progress-ring-fill.complete {
+  stroke: #34C759;
 }
 
 .progress-text {
@@ -1280,5 +1286,21 @@ select.field-input {
 
   .btn-skip:active {
     background: #2C2C2E;
+  }
+
+  .progress-ring-bg {
+    stroke: #3A3A3C;
+  }
+
+  .progress-ring-fill {
+    stroke: #48484A;
+  }
+
+  .progress-ring-fill.partial {
+    stroke: #FF9500;
+  }
+
+  .progress-ring-fill.complete {
+    stroke: #34C759;
   }
 }
