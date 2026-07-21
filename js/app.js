@@ -661,15 +661,15 @@ const App = (() => {
   }
 
   function groupByPeriod(doses) {
-    const groups = { '早晨 (05:00-09:59)': [], '上午 (10:00-11:59)': [], '中午 (12:00-13:59)': [], '下午 (14:00-17:59)': [], '晚上 (18:00-23:59)': [], '夜间 (00:00-04:59)': [] };
+    const groups = { '🌅 早晨 (05:00-09:59)': [], '☀️ 上午 (10:00-11:59)': [], '🌤 中午 (12:00-13:59)': [], '⛅ 下午 (14:00-17:59)': [], '🌙 晚上 (18:00-23:59)': [], '🌃 夜间 (00:00-04:59)': [] };
     for (const d of doses) {
       const h = parseInt(d.scheduledTime.split(':')[0]);
-      if (h >= 5 && h < 10) groups['早晨 (05:00-09:59)'].push(d);
-      else if (h >= 10 && h < 12) groups['上午 (10:00-11:59)'].push(d);
-      else if (h >= 12 && h < 14) groups['中午 (12:00-13:59)'].push(d);
-      else if (h >= 14 && h < 18) groups['下午 (14:00-17:59)'].push(d);
-      else if (h >= 18 && h < 24) groups['晚上 (18:00-23:59)'].push(d);
-      else groups['夜间 (00:00-04:59)'].push(d);
+      if (h >= 5 && h < 10) groups['🌅 早晨 (05:00-09:59)'].push(d);
+      else if (h >= 10 && h < 12) groups['☀️ 上午 (10:00-11:59)'].push(d);
+      else if (h >= 12 && h < 14) groups['🌤 中午 (12:00-13:59)'].push(d);
+      else if (h >= 14 && h < 18) groups['⛅ 下午 (14:00-17:59)'].push(d);
+      else if (h >= 18 && h < 24) groups['🌙 晚上 (18:00-23:59)'].push(d);
+      else groups['🌃 夜间 (00:00-04:59)'].push(d);
     }
     // 移除空组
     return Object.fromEntries(Object.entries(groups).filter(([, v]) => v.length > 0));
