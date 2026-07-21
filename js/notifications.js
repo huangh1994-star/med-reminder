@@ -171,7 +171,7 @@ const Notifications = (() => {
   async function registerSW() {
     if (!('serviceWorker' in navigator)) return;
     try {
-      swRegistration = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+      swRegistration = await navigator.serviceWorker.register('./sw.js', { scope: './' });
       console.log('SW 注册成功:', swRegistration.scope);
 
       // 定期向 SW 发送下次提醒时间

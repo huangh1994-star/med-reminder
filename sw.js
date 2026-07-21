@@ -2,15 +2,15 @@
  * Service Worker — 离线缓存 + 通知调度
  * 版本: v1
  */
-const CACHE_NAME = 'med-reminder-v2';
+const CACHE_NAME = 'med-reminder-v3';
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/css/style.css',
-  '/js/storage.js',
-  '/js/notifications.js',
-  '/js/app.js'
+  './',
+  './index.html',
+  './manifest.json',
+  './css/style.css',
+  './js/storage.js',
+  './js/notifications.js',
+  './js/app.js'
 ];
 
 // ====== 安装 ======
@@ -58,7 +58,7 @@ self.addEventListener('fetch', (event) => {
       }).catch(() => {
         // 网络不可用时，返回缓存的 index.html（SPA fallback）
         if (event.request.mode === 'navigate') {
-          return caches.match('/');
+          return caches.match('./');
         }
         return new Response('离线状态', { status: 503 });
       });
@@ -124,7 +124,7 @@ self.addEventListener('notificationclick', (event) => {
         }
       }
       // 否则打开新窗口
-      return self.clients.openWindow('/');
+      return self.clients.openWindow('./');
     })
   );
 });
