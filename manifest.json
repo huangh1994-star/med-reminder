@@ -1,0 +1,29 @@
+{
+  "name": "吃药提醒",
+  "short_name": "吃药提醒",
+  "description": "准时服药，守护健康",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F2F2F7",
+  "theme_color": "#34C759",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%2334C759'/><text x='90' y='115' text-anchor='middle' font-size='100' fill='white'>💊</text></svg>",
+      "sizes": "180x180",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><rect width='120' height='120' rx='24' fill='%2334C759'/><text x='60' y='80' text-anchor='middle' font-size='64' fill='white'>💊</text></svg>",
+      "sizes": "120x120",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 152 152'><rect width='152' height='152' rx='30' fill='%2334C759'/><text x='76' y='100' text-anchor='middle' font-size='84' fill='white'>💊</text></svg>",
+      "sizes": "152x152",
+      "type": "image/svg+xml"
+    }
+  ]
+}

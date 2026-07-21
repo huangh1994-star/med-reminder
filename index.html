@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#F2F2F7">
+  <meta name="description" content="吃药提醒 — 准时服药，健康生活">
+
+  <!-- iOS PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="吃药提醒">
+  <meta name="format-detection" content="telephone=no">
+
+  <!-- Apple Touch Icon (inline SVG via data URI) -->
+  <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%2334C759'/><text x='90' y='115' text-anchor='middle' font-size='100' fill='white'>💊</text></svg>">
+
+  <link rel="manifest" href="/manifest.json">
+
+  <title>吃药提醒</title>
+
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- 主容器 -->
+  <div id="app">
+
+    <!-- ====== 今日视图 ====== -->
+    <main id="view-today" class="view active">
+      <header class="header">
+        <h1 class="header-title">今日服药</h1>
+        <button id="btn-date-prev" class="btn-icon" aria-label="前一天">&lsaquo;</button>
+        <span id="date-display" class="date-display"></span>
+        <button id="btn-date-next" class="btn-icon" aria-label="后一天">&rsaquo;</button>
+        <button id="btn-date-today" class="btn-text" aria-label="回到今天">今天</button>
+      </header>
+
+      <!-- 进度环 -->
+      <div class="progress-section">
+        <div class="progress-ring-container">
+          <svg class="progress-ring" viewBox="0 0 120 120">
+            <circle class="progress-ring-bg" cx="60" cy="60" r="52"/>
+            <circle class="progress-ring-fill" cx="60" cy="60" r="52"
+                    stroke-dasharray="326.7" stroke-dashoffset="326.7"/>
+          </svg>
+          <div class="progress-text">
+            <span id="progress-taken" class="progress-taken">0</span>
+            <span class="progress-sep">/</span>
+            <span id="progress-total" class="progress-total">0</span>
+          </div>
+        </div>
+        <p id="progress-label" class="progress-label">今日无服药安排</p>
+      </div>
+
+      <!-- 时间线列表 -->
+      <div id="timeline" class="timeline">
+        <!-- 动态生成 -->
+      </div>
+
+      <!-- 空状态 -->
+      <div id="empty-today" class="empty-state">
+        <div class="empty-icon">💊</div>
+        <p class="empty-title">今日无服药安排</p>
+        <p class="empty-desc">去「药品」页面添加你的药品和服药时间</p>
+      </div>
+    </main>
+
+    <!-- ====== 药品管理视图 ====== -->
+    <main id="view-medications" class="view">
+      <header class="header">
+        <h1 class="header-title">药品管理</h1>
+      </header>
+
+      <div id="meds-list" class="meds-list">
+        <!-- 动态生成 -->
+      </div>
+
+      <div id="empty-meds" class="empty-state">
+        <div class="empty-icon">➕</div>
+        <p class="empty-title">还没有添加药品</p>
+        <p class="empty-desc">点击下方按钮添加你的第一种药品</p>
+      </div>
+
+      <div class="fab-container">
+        <button id="btn-add-med" class="fab" aria-label="添加药品">+</button>
+      </div>
+    </main>
+
+    <!-- ====== 历史记录视图 ====== -->
+    <main id="view-history" class="view">
+      <header class="header">
+        <h1 class="header-title">服药记录</h1>
+      </header>
+
+      <!-- 统计卡片 -->
+      <div class="stats-row" id="stats-row">
+        <div class="stat-card">
+          <span class="stat-value" id="stat-week">--</span>
+          <span class="stat-label">本周服药率</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="stat-month">--</span>
+          <span class="stat-label">本月服药率</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="stat-streak">--</span>
+          <span class="stat-label">连续天数</span>
+        </div>
+      </div>
+
+      <!-- 日历热力图 -->
+      <div class="calendar" id="calendar">
+        <div class="calendar-header">
+          <button id="btn-cal-prev" class="btn-icon">&lsaquo;</button>
+          <span id="cal-month-label"></span>
+          <button id="btn-cal-next" class="btn-icon">&rsaquo;</button>
+        </div>
+        <div class="calendar-weekdays">
+          <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+        </div>
+        <div class="calendar-days" id="calendar-days">
+          <!-- 动态生成 -->
+        </div>
+      </div>
+
+      <!-- 选中日期详情 -->
+      <div id="history-detail" class="history-detail">
+        <h3 id="history-date-label">选择日期查看详情</h3>
+        <div id="history-list"></div>
+      </div>
+    </main>
+
+    <!-- ====== 底部导航栏 ====== -->
+    <nav class="tab-bar">
+      <button class="tab-item active" data-view="today">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="3"/>
+          <line x1="3" y1="9" x2="21" y2="9"/>
+          <line x1="9" y1="21" x2="9" y2="9"/>
+        </svg>
+        <span>今日</span>
+      </button>
+      <button class="tab-item" data-view="medications">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+        <span>药品</span>
+      </button>
+      <button class="tab-item" data-view="history">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12,6 12,12 16,14"/>
+        </svg>
+        <span>历史</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ====== 药品表单弹窗 ====== -->
+  <div id="sheet-overlay" class="sheet-overlay hidden">
+    <div class="sheet" id="med-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <button id="btn-sheet-cancel" class="btn-text">取消</button>
+        <h2 id="sheet-title">添加药品</h2>
+        <button id="btn-sheet-save" class="btn-text btn-primary">保存</button>
+      </div>
+      <div class="sheet-body">
+        <input type="hidden" id="edit-id">
+
+        <label class="field-label">药品名称</label>
+        <input type="text" id="input-name" class="field-input" placeholder="例如：阿莫西林" required>
+
+        <label class="field-label">剂量</label>
+        <input type="text" id="input-dosage" class="field-input" placeholder="例如：1粒 / 5ml">
+
+        <label class="field-label">服药时间</label>
+        <div id="times-container" class="times-container">
+          <div class="time-row">
+            <input type="time" class="field-input time-input" value="08:00">
+            <button class="btn-icon btn-remove-time" aria-label="删除时间">&times;</button>
+          </div>
+        </div>
+        <button id="btn-add-time" class="btn-text btn-small">+ 添加时间</button>
+
+        <label class="field-label">频率</label>
+        <select id="input-frequency" class="field-input">
+          <option value="daily">每天</option>
+          <option value="weekly">每周指定日</option>
+          <option value="interval">间隔小时</option>
+        </select>
+
+        <div id="weekday-selector" class="weekday-selector hidden">
+          <button class="chip" data-day="1">一</button>
+          <button class="chip" data-day="2">二</button>
+          <button class="chip" data-day="3">三</button>
+          <button class="chip" data-day="4">四</button>
+          <button class="chip" data-day="5">五</button>
+          <button class="chip" data-day="6">六</button>
+          <button class="chip" data-day="0">日</button>
+        </div>
+
+        <div id="interval-input" class="hidden">
+          <input type="number" id="input-interval" class="field-input" placeholder="每多少小时" min="1" max="72" value="8">
+        </div>
+
+        <label class="field-label">颜色标签</label>
+        <div id="color-options" class="color-options">
+          <button class="color-chip active" data-color="#007AFF" style="background:#007AFF"></button>
+          <button class="color-chip" data-color="#34C759" style="background:#34C759"></button>
+          <button class="color-chip" data-color="#FF9500" style="background:#FF9500"></button>
+          <button class="color-chip" data-color="#FF3B30" style="background:#FF3B30"></button>
+          <button class="color-chip" data-color="#AF52DE" style="background:#AF52DE"></button>
+          <button class="color-chip" data-color="#5AC8FA" style="background:#5AC8FA"></button>
+        </div>
+
+        <label class="field-label">备注</label>
+        <input type="text" id="input-notes" class="field-input" placeholder="例如：饭后服用">
+
+        <button id="btn-delete-med" class="btn-danger hidden">删除此药品</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Toast ====== -->
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- ====== 通知权限引导 ====== -->
+  <div id="notification-prompt" class="notification-prompt hidden">
+    <div class="prompt-card">
+      <div class="prompt-icon">🔔</div>
+      <h3>开启通知提醒</h3>
+      <p>按时收到服药提醒，不再忘记吃药</p>
+      <button id="btn-enable-notify" class="btn-primary btn-large">开启通知</button>
+      <button id="btn-skip-notify" class="btn-text">以后再说</button>
+    </div>
+  </div>
+
+  <script src="/js/storage.js"></script>
+  <script src="/js/notifications.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
